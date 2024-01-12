@@ -9,30 +9,42 @@ namespace GA_CustomList_DanielMinty
     internal class CustomList<T>
     {
         //Attributes
+
+        //Array to store all the list's items
         private T[] items;
+
+        //The number of filled indicies in the array
         private int count;
+
+        //Property to allow public access to count
         public int Count => count;
 
         //Constructors
+
         public CustomList() : this(10) { }
+        //Creates a list with initialSize of ten
 
         public CustomList(int initialSize)
-        {
+        {//Create a list with specified initialSize
             items = new T[initialSize];
         }
 
         //Methods
+
         public void Add(T item)
-        {//Add the item to the end of the list and increment count.
+        {
+            //Make sure that the list has enough space to hold the new item
             CheckIntegrity();
+            //Add the item to the end of the list and increment count.
             items[count++] = item;
         }
 
         public void AddAtIndex(T item, int index)
-        {
+        {//Insert the specified item at the specified index
+            //Make sure that the list has enough space to hold the new item
             CheckIntegrity();
             for (int i = count - 1; i >= index; i--)
-            {//from the bottom up, move each item down until the desired index is reached
+            {//from the last index, move each item down until the desired index is reached
                 items[i + 1] = items[i];
             }
             //insert the item at the desired index
@@ -64,9 +76,10 @@ namespace GA_CustomList_DanielMinty
         }
 
         private void CheckIntegrity()
-        {//If the list is 80% full, double it's maximum capacity.
+        {//Make sure that the list has enough space to hold the any new items
+            //If the list is at least 80% full,
             if (count >= 0.8 * items.Length)
-            {
+            {//double it's maximum capacity by copying the current array into a larger array
                 T[] largerArray = new T[items.Length * 2];
                 Array.Copy(items, largerArray, count);
                 items = largerArray;
@@ -74,7 +87,8 @@ namespace GA_CustomList_DanielMinty
         }
 
         public T GetItem(int index)
-        {
+        {//Return the item at the specified index
+            //Check if the index is out of bounds
             if (index < 0 || index >= count)
             {//If the index is out of bounds, throw exeption.
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -82,7 +96,11 @@ namespace GA_CustomList_DanielMinty
             //in bounds, return value at index
             return items[index];
         }
+        
 
+
+        /* Unrelated to the assignment
+        
         public T this[int index]
         {//check if index is out of bounds, then get or set if valid
             get
@@ -112,6 +130,8 @@ namespace GA_CustomList_DanielMinty
             }
             return result;
         }
+        */
+
 
     }//End of CustomList
 }//End of Namespace
